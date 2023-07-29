@@ -31,6 +31,13 @@
             size: 10, self.height
 
     Label:
+        font_size: 100
+        center_x: root.width / 2
+        top: root.height / 2
+        color: root.player1.color if root.player1.score > root.player2.score else root.player2.color
+        text: str("Player 1 Wins!" if root.player1.score > root.player2.score else "Player 2 Wins!")
+
+    Label:
         font_size: 70
         center_x: root.width / 4
         top: root.top - 50

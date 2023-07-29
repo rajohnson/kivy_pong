@@ -1,11 +1,11 @@
 from kivy.app import App
 from kivy.uix.widget import Widget
-from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty
+from kivy.properties import NumericProperty, ReferenceListProperty, ObjectProperty, BooleanProperty
 from kivy.vector import Vector
 from kivy.clock import Clock
 import random
 
-INITIAL_SPEED = 8
+GOAL_SCORE = 10
 
 class PongPaddle(Widget):
     score = NumericProperty(0)
@@ -38,28 +38,40 @@ class PongGame(Widget):
     ball = ObjectProperty(None)
     player1 = ObjectProperty(None)
     player2 = ObjectProperty(None)
+    gameover = BooleanProperty(False)
 
     def serve_ball(self, vel):
         self.ball.center = self.center
         self.ball.velocity = vel
 
+    def reset(self):
+        self.player1.score = 0
+        self.player2.score = 0
+        self.gameover = False
+        self.serve_ball(Vector(INITIAL_SPEED, 0).rotate(random.randint(0, 360)))
+
+
     def update(self, dt):
-        self.ball.move()
+        if not self.gameover:
+            self.ball.move()
 
-        self.player1.bounce_ball(self.ball)
-        self.player2.bounce_ball(self.ball)
+            self.player1.bounce_ball(self.ball)
+            self.player2.bounce_ball(self.ball)
 
-        # bounce off top or bottom of screen
-        if (self.ball.y < 0) or (self.ball.top > self.height):
-            self.ball.velocity_y *= -1
+            # bounce off top or bottom of screen
+            if (self.ball.y < 0) or (self.ball.top > self.height):
+                self.ball.velocity_y *= -1
 
-        # hit vertical edge - point scored for other player
-        if self.ball.x < self.x:
-            self.player2.score += 1
-            self.serve_ball((INITIAL_SPEED, 0))
-        if self.ball.x > self.width:
-            self.player1.score += 1
-            self.serve_ball((-INITIAL_SPEED, 0))
+            # hit vertical edge - point scored for other player
+            if self.ball.x < self.x:
+                self.player2.score += 1
+                self.serve_ball((INITIAL_SPEED, 0))
+            if self.ball.x > self.width:
+                self.player1.score += 1
+                self.serve_ball((-INITIAL_SPEED, 0))
+            
+            if self.player1.score >= GOAL_SCORE or self.player2.score >= GOAL_SCORE:  
+                self.gameover = True
 
     def on_touch_move(self, touch):
         if touch.x < self.width / 3:
