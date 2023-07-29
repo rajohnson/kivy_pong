@@ -9,6 +9,11 @@ INITIAL_SPEED = 8
 
 class PongPaddle(Widget):
     score = NumericProperty(0)
+    color_red = NumericProperty(0)
+    color_green = NumericProperty(0)
+    color_blue = NumericProperty(0)
+    color = ReferenceListProperty(color_red, color_green, color_blue)
+
 
     def bounce_ball(self, ball):
         if self.collide_widget(ball):
