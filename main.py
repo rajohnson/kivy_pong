@@ -7,7 +7,13 @@ import random
 
 
 class PongPaddle(Widget):
-    ...
+    def bounce_ball(self, ball):
+        if self.collide_widget(ball):
+            vx, vy = ball.velocity
+            offset = (ball.center_y - self.center_y) / (self.height / 2)
+            bounced = Vector(-1 * vx, vy)
+            vel = bounced * 1.1
+            ball.velocity = vel.x, vel.y + offset
 
 
 
@@ -31,6 +37,9 @@ class PongGame(Widget):
 
     def update(self, dt):
         self.ball.move()
+
+        self.player1.bounce_ball(self.ball)
+        self.player2.bounce_ball(self.ball)
 
         if (self.ball.y < 0) or (self.ball.top > self.height):
             self.ball.velocity_y *= -1
