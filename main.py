@@ -5,6 +5,7 @@ from kivy.vector import Vector
 from kivy.clock import Clock
 import random
 
+INITIAL_SPEED = 8
 
 class PongPaddle(Widget):
     score = NumericProperty(0)
@@ -50,10 +51,10 @@ class PongGame(Widget):
         # hit vertical edge - point scored for other player
         if self.ball.x < self.x:
             self.player2.score += 1
-            self.serve_ball((4, 0))
+            self.serve_ball((INITIAL_SPEED, 0))
         if self.ball.x > self.width:
             self.player1.score += 1
-            self.serve_ball((-4, 0))
+            self.serve_ball((-INITIAL_SPEED, 0))
 
     def on_touch_move(self, touch):
         if touch.x < self.width / 3:
@@ -64,7 +65,7 @@ class PongGame(Widget):
 class PongApp(App):
     def build(self):
         game = PongGame()
-        game.serve_ball(Vector(4, 0).rotate(random.randint(0, 360)))
+        game.serve_ball(Vector(INITIAL_SPEED, 0).rotate(random.randint(0, 360)))
         Clock.schedule_interval(game.update, 1.0 / 60.0)
         return game
 
