@@ -5,6 +5,7 @@ from kivy.vector import Vector
 from kivy.clock import Clock
 import random
 
+INITIAL_SPEED = 7
 GOAL_SCORE = 10
 
 class PongPaddle(Widget):
