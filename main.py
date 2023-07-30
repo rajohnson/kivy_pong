@@ -84,7 +84,7 @@ class PongApp(App):
     def build(self):
         game = PongGame()
         game.serve_ball(Vector(INITIAL_SPEED, 0).rotate(random.randint(0, 360)))
-        Clock.schedule_interval(game.update, 1.0 / 60.0)
+        Clock.schedule_interval(game.update, 1.0 / 120.0)
         return game
 
 
