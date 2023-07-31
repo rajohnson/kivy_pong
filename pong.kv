@@ -38,6 +38,15 @@
         color: root.player1.color if root.player1.score > root.player2.score else root.player2.color
         text: str("Player 1 Wins!" if root.player1.score > root.player2.score else "Player 2 Wins!")
 
+    Button:
+        font_size: 50
+        center_x: root.width / 2
+        width: 300
+        top: root.height / 5
+        opacity: 1 if root.gameover else 0
+        text: "Play Again"
+        on_press: root.reset()
+
     Label:
         font_size: 70
         center_x: root.width / 4
